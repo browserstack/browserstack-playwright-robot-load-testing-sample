@@ -6,7 +6,22 @@ files:
     - requirements.txt
   testConfigs:
     - tests/
-thresholds: []
+# Pass/fail criteria for the run. Tune these to your application's SLA.
+thresholds:
+  - metric: error-percentage
+    condition: "<"
+    threshold: 5
+    unit: "%"
+    type: blu
+    requestType: entireTestRun
+    failOnBreach: false
+  - metric: p95-response-time
+    condition: "<"
+    threshold: 10000
+    unit: ms
+    type: blu
+    requestType: entireTestRun
+    failOnBreach: false
 headless: true
 vus: 2
 duration: 1m 50s

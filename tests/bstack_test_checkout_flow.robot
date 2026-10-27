@@ -43,6 +43,8 @@ BStackDemo Test Checkout Flow
 
     # checkout
     Click    id=checkout-shipping-continue
+    Wait For Elements State    id=confirmation-message    visible    timeout=15s
+    Get Text    id=confirmation-message    ==    Your Order has been successfully placed.
     Wait For Elements State    xpath=//*[normalize-space()='Continue']    visible    timeout=15s
     Click    xpath=//*[normalize-space()='Continue']
     Wait For Elements State    xpath=//*[normalize-space()='Orders']    visible    timeout=15s

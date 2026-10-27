@@ -1,6 +1,8 @@
 projectName: Robot Framework Playwright Load Testing Sample
-loadTestName: robot-playwright-sample
-framework: playwright-robot
+testName: robot-playwright-sample
+testType: Playwright
+framework: robot
+language: python
 files:
   dependencies:
     - requirements.txt
@@ -24,21 +26,21 @@ thresholds:
     failOnBreach: false
 headless: true
 vus: 2
-duration: 1m 50s
 regions:
   - loadzone: eu-central-1
     percent: 100
-loadProfile: ramping
-loadProfileStages:
-  - duration: 10s
-    startVUs: 0
-    targetVUs: 2
-    type: ramp-up
-  - duration: 1m 30s
-    startVUs: 2
-    targetVUs: 2
-    type: hold
-  - duration: 10s
-    startVUs: 2
-    targetVUs: 0
-    type: ramp-down
+loadProfile:
+  type: ramping
+  stages:
+    - type: ramp-up
+      duration: 10s
+      from: 0
+      to: 2
+    - type: hold
+      duration: 1m30s
+      from: 2
+      to: 2
+    - type: ramp-down
+      duration: 10s
+      from: 2
+      to: 0

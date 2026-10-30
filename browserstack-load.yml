@@ -1,0 +1,46 @@
+projectName: Robot Framework Playwright Load Testing Sample
+testName: robot-playwright-sample
+testType: Playwright
+framework: robot
+language: python
+files:
+  dependencies:
+    - requirements.txt
+  testConfigs:
+    - tests/
+# Pass/fail criteria for the run. Tune these to your application's SLA.
+thresholds:
+  - metric: error-percentage
+    condition: "<"
+    threshold: 5
+    unit: "%"
+    type: blu
+    requestType: entireTestRun
+    failOnBreach: false
+  - metric: p95-response-time
+    condition: "<"
+    threshold: 10000
+    unit: ms
+    type: blu
+    requestType: entireTestRun
+    failOnBreach: false
+headless: true
+vus: 2
+regions:
+  - loadzone: eu-central-1
+    percent: 100
+loadProfile:
+  type: ramping
+  stages:
+    - type: ramp-up
+      duration: 10s
+      from: 0
+      to: 2
+    - type: hold
+      duration: 1m30s
+      from: 2
+      to: 2
+    - type: ramp-down
+      duration: 10s
+      from: 2
+      to: 0

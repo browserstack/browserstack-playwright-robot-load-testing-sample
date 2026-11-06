@@ -9,8 +9,7 @@ The BrowserStack CLI reads your credentials from environment variables. Copy you
 # macOS / Linux (bash or zsh)
 export BROWSERSTACK_USERNAME="<your-username>"
 # Type the key at the prompt: it is not echoed, and it stays out of your shell history
-printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo
-export BROWSERSTACK_ACCESS_KEY
+printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo; export BROWSERSTACK_ACCESS_KEY
 ```
 
 ```powershell
@@ -26,19 +25,21 @@ These variables last only for the current terminal session. If the CLI reports a
 
 ## Run the sample
 
-1. Download the BrowserStack CLI for your operating system. The download is a zip: extract it and place the `browserstack-cli` binary in the root of this project.
+1. Download the BrowserStack CLI for your operating system. The download is a zip: extract it and place the `browserstack-cli` binary (`browserstack-cli.exe` on Windows) in the root of this project.
    - [macOS x86](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=x64)
    - [macOS ARM](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=arm64)
    - [Windows x86](https://load-api.browserstack.com/api/v1/binary?os=win&arch=x64)
    - [Linux x86](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=x64)
    - [Linux ARM](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
-2. Before running it, check that it is signed by BrowserStack. On macOS the output must include `TeamIdentifier=YQ5FZQ855D`; on Windows, `Status` must be `Valid` with BrowserStack as the signer. If the check fails, do not run the binary.
+2. On macOS and Windows, check that the binary is signed by BrowserStack before running it. On macOS the output must include `TeamIdentifier=YQ5FZQ855D`; on Windows, `Status` must be `Valid` with BrowserStack as the signer. If the check fails, do not run the binary. There is no signature check for the Linux build.
 
    ```sh
+   # macOS
    codesign --verify --strict ./browserstack-cli && codesign -dv ./browserstack-cli 2>&1 | grep TeamIdentifier
    ```
 
    ```powershell
+   # Windows (PowerShell)
    Get-AuthenticodeSignature .\browserstack-cli.exe | Format-List Status, SignerCertificate
    ```
 3. Start the test:

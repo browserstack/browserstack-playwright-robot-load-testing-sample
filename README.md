@@ -6,18 +6,52 @@ Sample repository for Playwright framework to do load testing
 The BrowserStack CLI reads your credentials from environment variables. Copy your username and access key from [Account Settings](https://www.browserstack.com/accounts/settings) and export them in the shell you run the test from:
 
 ```sh
-# macOS / Linux
+# macOS / Linux (bash or zsh)
 export BROWSERSTACK_USERNAME="<your-username>"
-export BROWSERSTACK_ACCESS_KEY="<your-access-key>"
+# Type the key at the prompt: it is not echoed, and it stays out of your shell history
+printf 'BrowserStack access key: '; read -rs BROWSERSTACK_ACCESS_KEY; echo
+export BROWSERSTACK_ACCESS_KEY
 ```
 
 ```powershell
 # Windows (PowerShell)
 $env:BROWSERSTACK_USERNAME = "<your-username>"
-$env:BROWSERSTACK_ACCESS_KEY = "<your-access-key>"
+# Type the key at the prompt: it is not echoed, and it stays out of your PowerShell history
+$env:BROWSERSTACK_ACCESS_KEY = [System.Net.NetworkCredential]::new('', (Read-Host -AsSecureString 'BrowserStack access key')).Password
 ```
 
+These variables last only for the current terminal session. If the CLI reports an authentication error, check that both are set in the terminal you run it from.
+
 **Never commit your credentials.** Keep your access key out of `browserstack-load.yml` and every other file you push. If a key is ever exposed, regenerate it from Account Settings.
+
+## Run the sample
+
+1. Download the BrowserStack CLI for your operating system. The download is a zip: extract it and place the `browserstack-cli` binary in the root of this project.
+   - [macOS x86](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=x64)
+   - [macOS ARM](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=arm64)
+   - [Windows x86](https://load-api.browserstack.com/api/v1/binary?os=win&arch=x64)
+   - [Linux x86](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=x64)
+   - [Linux ARM](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
+2. Before running it, check that it is signed by BrowserStack. On macOS the output must include `TeamIdentifier=YQ5FZQ855D`; on Windows, `Status` must be `Valid` with BrowserStack as the signer. If the check fails, do not run the binary.
+
+   ```sh
+   codesign --verify --strict ./browserstack-cli && codesign -dv ./browserstack-cli 2>&1 | grep TeamIdentifier
+   ```
+
+   ```powershell
+   Get-AuthenticodeSignature .\browserstack-cli.exe | Format-List Status, SignerCertificate
+   ```
+3. Start the test:
+
+   ```sh
+   # macOS / Linux
+   ./browserstack-cli load run
+   ```
+
+   ```powershell
+   # Windows (PowerShell)
+   .\browserstack-cli.exe load run
+   ```
 
 ## Notes before you adapt this sample
 

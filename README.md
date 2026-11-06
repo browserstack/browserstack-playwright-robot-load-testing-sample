@@ -1,6 +1,24 @@
 # browserstack-playwright-robot-load-testing-sample
 Sample repository for Playwright framework to do load testing
 
+## Set your credentials
+
+The BrowserStack CLI reads your credentials from environment variables. Copy your username and access key from [Account Settings](https://www.browserstack.com/accounts/settings) and export them in the shell you run the test from:
+
+```sh
+# macOS / Linux
+export BROWSERSTACK_USERNAME="<your-username>"
+export BROWSERSTACK_ACCESS_KEY="<your-access-key>"
+```
+
+```powershell
+# Windows (PowerShell)
+$env:BROWSERSTACK_USERNAME = "<your-username>"
+$env:BROWSERSTACK_ACCESS_KEY = "<your-access-key>"
+```
+
+**Never commit your credentials.** Keep your access key out of `browserstack-load.yml` and every other file you push. If a key is ever exposed, regenerate it from Account Settings.
+
 ## Notes before you adapt this sample
 
 - **Dependencies are hash-pinned.** `requirements.txt` is a lock with a hash for every package, so pip refuses anything that doesn't match. Edit the direct dependencies in `requirements.in`, then regenerate the lock:

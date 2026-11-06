@@ -25,16 +25,16 @@ These variables last only for the current terminal session. If the CLI reports a
 
 ## Run the sample
 
-1. Download the BrowserStack CLI for your operating system. The download is a zip: extract it and place the `browserstack-cli` binary (`browserstack-cli.exe` on Windows) in the root of this project.
+1. Download the BrowserStack CLI for your operating system. The download is a zip: extract it and place the `browserstack-cli` binary (`browserstack-cli.exe` on Windows) in the root of this project. On macOS or Linux, also run `chmod +x browserstack-cli`, since some unzip tools drop the executable bit.
    - [macOS x86](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=x64)
    - [macOS ARM](https://load-api.browserstack.com/api/v1/binary?os=macos&arch=arm64)
    - [Windows x86](https://load-api.browserstack.com/api/v1/binary?os=win&arch=x64)
    - [Linux x86](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=x64)
    - [Linux ARM](https://load-api.browserstack.com/api/v1/binary?os=linux&arch=arm64)
-2. On macOS and Windows, check that the binary is signed by BrowserStack before running it. On macOS the output must include `TeamIdentifier=YQ5FZQ855D`; on Windows, `Status` must be `Valid` with BrowserStack as the signer. If the check fails, do not run the binary. There is no signature check for the Linux build.
+2. On macOS and Windows, check that the binary is signed by BrowserStack before running it. On macOS the command must succeed: it only passes if an Apple-issued certificate for BrowserStack's team (`YQ5FZQ855D`) signed the binary; on Windows, `Status` must be `Valid` with BrowserStack as the signer. If the check fails, do not run the binary. There is no signature check for the Linux build.
 
    ```sh
-   codesign --verify --strict ./browserstack-cli && codesign -dv ./browserstack-cli 2>&1 | grep TeamIdentifier
+   codesign --verify --strict -R '=anchor apple generic and certificate leaf[subject.OU] = "YQ5FZQ855D"' ./browserstack-cli
    ```
 
    ```powershell
